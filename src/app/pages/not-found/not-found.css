@@ -1,0 +1,12 @@
+section {
+    color: red
+}
+
+button {
+    background-color: #172554;
+    border: none;
+    cursor: pointer;
+    padding: 20px 30px;
+    color: white;
+    font-size: 17px;
+}

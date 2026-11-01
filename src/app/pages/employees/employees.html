@@ -1,0 +1,32 @@
+<section>
+  <h1>Employees</h1>
+  <p>Meet our team members.</p>
+
+  <div class="employees-list">
+    @for (employee of employees; track employee.id) {
+      <article class="employee-card">
+        <h3>{{ employee.name }}</h3>
+
+        <p>{{ employee.position }}</p>
+
+        <p>
+          <strong>Department:</strong>
+          {{ employee.department }}
+        </p>
+
+        <p>
+          <strong>Email:</strong>
+          {{ employee.email }}
+        </p>
+
+        @if(employee.active){
+          <span class="active">Active</span>
+        } @else {
+          <span class="inactive">Inactive</span>
+        }
+      </article>
+    } @empty {
+      <p>No employees found.</p>
+    }
+  </div>
+</section>

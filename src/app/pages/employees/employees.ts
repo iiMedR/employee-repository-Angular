@@ -3,7 +3,8 @@ import {
   inject,
   DestroyRef,
   OnInit,
-  signal
+  signal,
+  computed
  } from '@angular/core';
 
  import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -47,4 +48,6 @@ export class Employees implements OnInit {
         }
       })
   }
+
+  employeeCount = computed(() => this.employees().length);
 }

@@ -1,59 +1,33 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { Observable, map } from 'rxjs';
+
 import { Employee } from '../models/Employee';
+import { UsersApiResponse } from '../models/employee-api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmployeeService {
+  private http = inject(HttpClient);
 
-  constructor() {
-    console.log('EmployeeService instance created');
-  }
+  private apiUrl = 'https://dummyjson.com/users';
 
-  private employee: Employee[] = [
-    {
-      id: 1,
-      name: 'Sarah Martin',
-      email: 'sarah@example.com',
-      department: 'Engineering',
-      position: 'Software Developer',
-      active: true
-    },
-    {
-      id: 2,
-      name: 'Adam Wilson',
-      email: 'adam@example.com',
-      department: 'Marketing',
-      position: 'Marketing Specialist',
-      active: true
-    },
-    {
-      id: 3,
-      name: 'Lina Roberts',
-      email: 'lina@example.com',
-      department: 'Design',
-      position: 'UI Designer',
-      active: false
-    },
-    {
-      id: 4,
-      name: 'Omar Hassan',
-      email: 'omar@example.com',
-      department: 'Engineering',
-      position: 'Backend Developer',
-      active: true
-    }
-  ];
-
-  getEmployees(): Employee[] {
-    return [...this.employee]
-  }
-
-  getEmployeeById(id: number): Employee | undefined {
-    return this.employee.find(e => e.id === id)
-  }
-
-  getActiveEmployeeCount(): number {
-    return this.employee.filter(e => e.active === true).length
+  getEmployees(): Observable<Employee[]> {
+    return this.http
+      .get<UsersApiResponse>(`${this.apiUrl}?limit=10`)
+      .pipe(
+        map(response => 
+          response.users.map(user => ({
+            id: user.id,
+            name: `${user.firstName} ${user.lastName}`,
+            email: user.email,
+            department: user.company.department,
+            position: user.company.title,
+            active: true
+          }))
+        )
+      )
   }
 }

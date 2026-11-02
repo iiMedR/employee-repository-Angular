@@ -35,6 +35,11 @@
   font-weight: bold;
 }
 
+.error-message {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
 @media (max-width: 650px) {
   .employees-list {
     grid-template-columns: 1fr;

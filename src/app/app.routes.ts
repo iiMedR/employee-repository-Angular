@@ -5,6 +5,7 @@ import { Employees } from './pages/employees/employees';
 import { Settings } from './pages/settings/settings';
 import { About } from './pages/about/about';
 import { NotFound } from './pages/not-found/not-found';
+import { EmployeeDetails } from './pages/employee-details/employee-details';
 
 export const routes: Routes = [
     {
@@ -14,6 +15,10 @@ export const routes: Routes = [
     {
         path: 'employees',
         component: Employees
+    },
+    {
+        path: 'employees/:id',
+        component: EmployeeDetails
     },
     {
         path: 'settings',

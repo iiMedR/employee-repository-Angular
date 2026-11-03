@@ -1,0 +1,46 @@
+<section class="employee-details">
+
+  <a routerLink="/employees" class="back-link">
+    ← Back to Employees
+  </a>
+
+  @if (loading()) {
+
+    <p>Loading employee details...</p>
+
+  } @else if (errorMessage()) {
+
+    <p class="error">{{ errorMessage() }}</p>
+
+  } @else if (employee(); as person) {
+
+    <article class="employee-profile">
+
+      <h1>{{ person.name }}</h1>
+
+      <h2>{{ person.position }}</h2>
+
+      <p>
+        <strong>Employee ID:</strong>
+        {{ person.id }}
+      </p>
+
+      <p>
+        <strong>Email:</strong>
+        {{ person.email }}
+      </p>
+
+      <p>
+        <strong>Department:</strong>
+        {{ person.department }}
+      </p>
+
+    </article>
+
+  } @else {
+
+    <p>No employee data available.</p>
+
+  }
+
+</section>

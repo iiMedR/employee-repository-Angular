@@ -28,6 +28,10 @@
             {{ employee.email }}
           </p>
 
+          <a [routerLink]="['/employees', employee.id]">
+            View Details
+          </a>
+
           @if(employee.active){
             <span class="active">Active</span>
           } @else {

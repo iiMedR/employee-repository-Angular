@@ -1,0 +1,39 @@
+.employee-details {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 25px;
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+.employee-profile {
+  background: white;
+  padding: 30px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.employee-profile h1 {
+  color: #172554;
+  margin-bottom: 8px;
+}
+
+.employee-profile h2 {
+  color: #64748b;
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.employee-profile p {
+  margin-top: 20px;
+  color: #334155;
+}
+
+.error {
+  color: #b91c1c;
+  font-weight: 600;
+}

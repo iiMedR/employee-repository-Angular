@@ -8,12 +8,13 @@ import {
  } from '@angular/core';
 
  import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+ import { RouterLink } from '@angular/router';
 
 import { EmployeeService } from '../../services/employee.service';
 import { Employee } from '../../models/Employee';
 
 @Component({
-  imports: [],
+  imports: [RouterLink],
   selector: 'app-employees',
   styleUrl: './employees.css',
   templateUrl: './employees.html',

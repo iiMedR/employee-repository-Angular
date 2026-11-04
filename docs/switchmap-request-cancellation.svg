@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="680" viewBox="0 0 1040 680" role="img" aria-labelledby="title desc">
+  <title id="title">How switchMap prevents stale employee responses</title>
+  <desc id="desc">Two request timelines. With independent subscriptions, employee 3 finishes after employee 8 and can overwrite the view. With switchMap, selecting employee 8 unsubscribes from the pending employee 3 request, so only employee 8 updates the view.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 8 4 0 8" fill="none" stroke="#64748b" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1040" height="680" rx="24" fill="#0f172a"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="40" y="49" fill="#f8fafc" font-size="28" font-weight="700">Latest selection. Latest result.</text>
+    <text x="40" y="79" fill="#cbd5e1" font-size="16">Select employee 3, then employee 8 while the first request is still pending.</text>
+
+    <rect x="32" y="104" width="976" height="244" rx="16" fill="#1e293b" stroke="#334155"/>
+    <text x="56" y="139" fill="#f8fafc" font-size="20" font-weight="700">Independent subscriptions</text>
+    <text x="56" y="164" fill="#cbd5e1" font-size="15">Both requests remain active.</text>
+    <g stroke="#475569" stroke-width="2"><path d="M224 211H942"/><path d="M224 267H942"/></g>
+    <g fill="#e2e8f0" font-size="17"><text x="56" y="217">Employee 3</text><text x="56" y="273">Employee 8</text></g>
+    <rect x="224" y="194" width="668" height="34" rx="8" fill="#fbbf24"/>
+    <text x="558" y="216" text-anchor="middle" fill="#422006" font-size="15" font-weight="700">Older request finishes last</text>
+    <rect x="410" y="250" width="290" height="34" rx="8" fill="#60a5fa"/>
+    <text x="555" y="272" text-anchor="middle" fill="#172554" font-size="15" font-weight="700">Newer request finishes first</text>
+    <circle cx="892" cy="211" r="5" fill="#fef3c7"/>
+    <circle cx="700" cy="267" r="5" fill="#dbeafe"/>
+    <text x="56" y="323" fill="#fda4af" font-size="16">Risk: the late ID 3 response can overwrite the selected ID 8 profile.</text>
+
+    <rect x="32" y="368" width="976" height="244" rx="16" fill="#1e293b" stroke="#334155"/>
+    <text x="56" y="403" fill="#f8fafc" font-size="20" font-weight="700">With switchMap</text>
+    <text x="56" y="428" fill="#cbd5e1" font-size="15">A new selection unsubscribes from the previous request.</text>
+    <g stroke="#475569" stroke-width="2"><path d="M224 475H942"/><path d="M224 531H942"/></g>
+    <g fill="#e2e8f0" font-size="17"><text x="56" y="481">Employee 3</text><text x="56" y="537">Employee 8</text></g>
+    <path d="M410 446V557" stroke="#94a3b8" stroke-dasharray="4 5"/>
+    <rect x="224" y="458" width="175" height="34" rx="8" fill="#fbbf24"/>
+    <text x="310" y="480" text-anchor="middle" fill="#422006" font-size="15" font-weight="700">Pending</text>
+    <path d="m402 463 16 24m0-24-16 24" stroke="#fb7185" stroke-width="4" stroke-linecap="round"/>
+    <text x="434" y="481" fill="#fda4af" font-size="15">Unsubscribed when ID 8 is selected</text>
+    <rect x="410" y="514" width="290" height="34" rx="8" fill="#60a5fa"/>
+    <text x="555" y="536" text-anchor="middle" fill="#172554" font-size="15" font-weight="700">Latest request completes</text>
+    <circle cx="700" cy="531" r="5" fill="#dbeafe"/>
+    <text x="56" y="587" fill="#86efac" font-size="16">Result: only the ID 8 response updates the profile.</text>
+
+    <path d="M224 641H940" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+    <g fill="#cbd5e1" font-size="13"><text x="224" y="665">Select ID 3</text><text x="410" y="665">Select ID 8</text><text x="902" y="665">Time</text></g>
+  </g>
+</svg>

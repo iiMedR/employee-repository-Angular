@@ -37,7 +37,7 @@ The production browser files are written to `dist/employee-directory/browser/`. 
 
 ## How switchMap works
 
-![Requests with and without switchMap](docs/switchmap-request-cancellation.png)
+![Timeline comparing independent requests with switchMap cancellation](docs/switchmap-request-cancellation.svg)
 
 Suppose you select employee **ID 3**, then select **ID 8** before the first request finishes. With independent subscriptions, ID 3 might finish last and overwrite ID 8. `switchMap` unsubscribes from the previous inner observable when a new source value arrives, so only the newest request can update the view.
 

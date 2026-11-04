@@ -35,6 +35,26 @@
         {{ person.department }}
       </p>
 
+
+      <div class="employee-navigation">
+
+        @if (person.id > 1) {
+          <a [routerLink]="['/employees', person.id - 1]">
+            ← Previous Employee
+          </a>
+        }
+
+        <a [routerLink]="['/employees', person.id + 1]">
+          Next Employee →
+        </a>
+
+      </div>
+
+      <button
+        (click)="refresh()"
+      >refresh</button>
+      
+
     </article>
 
   } @else {

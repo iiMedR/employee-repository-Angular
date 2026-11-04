@@ -38,19 +38,20 @@ export class EmployeeDetails implements OnInit {
   loading = signal(true);
   errorMessage = signal<string | null>(null);
 
-  ngOnInit(): void {
+  loadUser(): void {
     this.route.paramMap
       .pipe(
         map(params => params.get('id')),
+
         switchMap(rawId => {
-          this.loading.set(true);
-          this.employee.set(null);
-          this.errorMessage.set(null);
+          this.employee.set(null)
+          this.loading.set(true)
+          this.errorMessage.set(null)
 
           const id = Number(rawId)
 
-          if(rawId === null || !Number.isSafeInteger(id) || id<=0){
-            this.errorMessage.set('Invalid employee ID');
+          if(rawId === null || !Number.isSafeInteger(id) || id <= 0){
+            this.errorMessage.set('Invalid employee ID')
             return of(null)
           }
 
@@ -60,20 +61,27 @@ export class EmployeeDetails implements OnInit {
                 console.error('Employee request failed', error);
 
                 this.errorMessage.set(
-                  error.status === 404
-                    ? 'Employee Not Found'
-                    : 'Unable to load employee'
-                );
+                  error.status === 404 ? "Employee Not Found" : "Unable to load the employee"
+                )
+
                 return of(null)
               })
-            );
+            )
         }),
 
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(employee => {
-        this.employee.set(employee);
+        this.employee.set(employee)
         this.loading.set(false)
       })
+  }
+
+  refresh(): void {
+    this.loadUser()
+  }
+
+  ngOnInit(): void {
+    this.loadUser()
   }
 }

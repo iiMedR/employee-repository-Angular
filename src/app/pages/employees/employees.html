@@ -1,47 +1,60 @@
-<section>
+<section class="employees-page">
   <h1>Employees</h1>
-  <p>Meet our team members.</p>
+  <p>Employee records from our REST API.</p>
 
-  @if(loading()){
-    <p>Loading employees ...</p>
-  } @else if (errorMessage()) {
-      <p class="error-message">{{ errorMessage() }}</p>
+  @if (state$ | async; as state) {
 
-      <button type="button" (click)="loadEmployees()">
+    @if (state.status === 'loading') {
+
+      <p>Loading employees...</p>
+
+    } @else if (state.status === 'error') {
+
+      <p class="error-message">
+        {{ state.message }}
+      </p>
+
+      <button type="button" (click)="refresh()">
         Try Again
       </button>
-  } @else {
-    <div class="employees-list">
-      @for (employee of employees(); track employee.id) {
-        <article class="employee-card">
-          <h3>{{ employee.name }}</h3>
 
-          <p>{{ employee.position }}</p>
+    } @else if (state.status === 'success') {
 
-          <p>
-            <strong>Department:</strong>
-            {{ employee.department }}
-          </p>
+      <div class="page-toolbar">
+        <p>Total employees: {{ state.data.length }}</p>
 
-          <p>
-            <strong>Email:</strong>
-            {{ employee.email }}
-          </p>
+        <button type="button" (click)="refresh()">
+          Refresh
+        </button>
+      </div>
 
-          <a [routerLink]="['/employees', employee.id]">
-            View Details
-          </a>
+      <div class="employees-list">
+        @for (employee of state.data; track employee.id) {
 
-          @if(employee.active){
-            <span class="active">Active</span>
-          } @else {
-            <span class="inactive">Inactive</span>
-          }
-        </article>
-      } @empty {
-        <p>No employees found.</p>
-      }
-      <p>Total employees: {{ employeeCount() }}</p>
-    </div>
+          <article class="employee-card">
+            <h3>{{ employee.name }}</h3>
+
+            <p>{{ employee.position }}</p>
+
+            <p>
+              <strong>Department:</strong>
+              {{ employee.department }}
+            </p>
+
+            <p>
+              <strong>Email:</strong>
+              {{ employee.email }}
+            </p>
+
+            <a [routerLink]="['/employees', employee.id]">
+              View Details
+            </a>
+          </article>
+
+        } @empty {
+          <p>No employees found.</p>
+        }
+      </div>
+    }
   }
 </section>

@@ -1,54 +1,60 @@
-import { 
-  Component,
-  inject,
-  DestroyRef,
-  OnInit,
-  signal,
-  computed
- } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
 
- import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
- import { RouterLink } from '@angular/router';
+import {
+  Subject,
+  startWith,
+  switchMap,
+  map,
+  catchError,
+  of
+} from 'rxjs';
 
 import { EmployeeService } from '../../services/employee.service';
-import { Employee } from '../../models/Employee';
+import { Employee } from '../../models/Employee'; 
+import { LoadState } from '../../models/load-state';
 
 @Component({
-  imports: [RouterLink],
   selector: 'app-employees',
-  styleUrl: './employees.css',
+  imports: [RouterLink, AsyncPipe],
   templateUrl: './employees.html',
+  styleUrl: './employees.css'
 })
-export class Employees implements OnInit {
+export class Employees {
+
   private employeeService = inject(EmployeeService);
-  private destroyRef = inject(DestroyRef);
 
-  employees = signal<Employee[]>([]);
-  loading = signal(false);
-  errorMessage = signal<string | null>(null);
+  private refreshSubject = new Subject<void>();
 
-  ngOnInit(): void {
-    this.loadEmployees();
+  state$ = this.refreshSubject.pipe(
+    startWith(undefined),
+
+    switchMap(() =>
+      this.employeeService.getEmployees().pipe(
+
+        map((employees): LoadState<Employee[]> => ({
+          status: 'success',
+          data: employees
+        })),
+
+        catchError((error) => {
+          console.error('Failed to load employees:', error);
+
+          return of<LoadState<Employee[]>>({
+            status: 'error',
+            message: 'Unable to load employees.'
+          });
+        }),
+
+        startWith({
+          status: 'loading'
+        } as LoadState<Employee[]>)
+      )
+    )
+  );
+
+  refresh(): void {
+    this.refreshSubject.next();
   }
-
-  loadEmployees(): void {
-    this.loading.set(true);
-    this.errorMessage.set(null)
-
-    this.employeeService.getEmployees()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (data) => {
-          this.employees.set(data);
-          this.loading.set(false);
-        },
-        error: (error) => {
-          console.error('Error Loading employees:', error);
-          this.errorMessage.set('Unable to load employees.');
-          this.loading.set(false)
-        }
-      })
-  }
-
-  employeeCount = computed(() => this.employees().length);
 }

@@ -21,7 +21,7 @@
     } @else if (state.status === 'success') {
 
       <div class="page-toolbar">
-        <p>Total employees: {{ state.data.length }}</p>
+        <p>Total employees: {{ state.data.length }}, refreshed: {{ refreshCount() }} times</p>
 
         <button type="button" (click)="refresh()">
           Refresh

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 
@@ -8,7 +8,7 @@ import {
   switchMap,
   map,
   catchError,
-  of
+  of,
 } from 'rxjs';
 
 import { EmployeeService } from '../../services/employee.service';
@@ -26,6 +26,8 @@ export class Employees {
   private employeeService = inject(EmployeeService);
 
   private refreshSubject = new Subject<void>();
+
+  protected refreshCount = signal(0);
 
   state$ = this.refreshSubject.pipe(
     startWith(undefined),
@@ -56,5 +58,6 @@ export class Employees {
 
   refresh(): void {
     this.refreshSubject.next();
+    this.refreshCount.update(count => count + 1);
   }
 }

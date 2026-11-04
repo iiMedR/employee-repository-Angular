@@ -17,6 +17,8 @@ import {
     catchError,
     map,
     of,
+    Subject,
+    startWith,
     switchMap
    } from 'rxjs';
 
@@ -33,6 +35,7 @@ export class EmployeeDetails implements OnInit {
   private route = inject(ActivatedRoute)
   private employeeService = inject(EmployeeService)
   private destroyRef = inject(DestroyRef)
+  private refreshSubject = new Subject<void>();
 
   employee = signal<Employee | null>(null);
   loading = signal(true);
@@ -42,6 +45,10 @@ export class EmployeeDetails implements OnInit {
     this.route.paramMap
       .pipe(
         map(params => params.get('id')),
+        switchMap(rawId => this.refreshSubject.pipe(
+          startWith(undefined),
+          map(() => rawId)
+        )),
 
         switchMap(rawId => {
           this.employee.set(null)
@@ -78,7 +85,7 @@ export class EmployeeDetails implements OnInit {
   }
 
   refresh(): void {
-    this.loadUser()
+    this.refreshSubject.next()
   }
 
   ngOnInit(): void {
